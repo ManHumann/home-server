@@ -5,6 +5,7 @@ from fastapi import UploadFile, File
 
 from app.database import get_db
 
+from app.schemas.image import ImageResponse
 
 from app.models.image import Image
 
@@ -15,18 +16,13 @@ router = APIRouter(
     tags=["Images"]
 )
 
-@router.get("/")
+@router.get("/", response_model=list[ImageResponse])
 def get_images(db: Session = Depends(get_db)):
-    images = db.query(Image).all()
+    return db.query(Image).all()
 
-    return images
-
-
-@router.post("/")
+@router.post("/", response_model=ImageResponse)
 def upload_image(
     file: UploadFile = File(...),
     db: Session = Depends(get_db)
 ):
-    result = image_service.upload_image(file, db)
-
-    return result
+    return image_service.upload_image(file, db)

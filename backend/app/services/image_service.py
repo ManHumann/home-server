@@ -39,10 +39,4 @@ def upload_image(file: UploadFile, db: Session):
     db.refresh(image)
 
     # Return response
-    return {
-        "id": image.id,
-        "original_filename": image.original_filename,
-        "stored_filename": image.stored_filename,
-        "mime_type": image.mime_type,
-        "file_size": image.file_size
-    }
+    return image
