@@ -1,9 +1,9 @@
 from sqlalchemy import create_engine , text , URL
-from sqlalchemy.orm import sessionmaker , DeclarativeBase
+from sqlalchemy.orm import Session ,sessionmaker , DeclarativeBase
 
 from app import config
 
-DATABASE_URL =DATABASE_URL = URL.create(
+DATABASE_URL = URL.create(
     drivername="postgresql+psycopg",
     username=config.DB_USER,
     password=config.DB_PASSWORD,
@@ -28,3 +28,13 @@ def test_connection():
 
 class Base(DeclarativeBase):
 	pass
+
+
+def get_db():
+    db = SessionLocal()
+
+    try:
+        yield db
+
+    finally:
+        db.close()
