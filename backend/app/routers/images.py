@@ -11,6 +11,11 @@ from app.models.image import Image
 
 from app.services import image_service
 
+from fastapi.responses import FileResponse
+from fastapi import HTTPException
+from pathlib import Path
+
+
 router = APIRouter(
     prefix="/images",
     tags=["Images"]
@@ -24,5 +29,19 @@ def get_images(db: Session = Depends(get_db)):
 def upload_image(
     file: UploadFile = File(...),
     db: Session = Depends(get_db)
-):
+    ):
     return image_service.upload_image(file, db)
+
+@router.get("/{image_id}")
+def get_image(image_id: int, db: Session = Depends(get_db)):
+
+    image = db.query(Image).filter(Image.id == image_id).first()
+
+    if image is None:
+        raise HTTPException(status_code=404, detail="Image not found")
+
+    return FileResponse(
+        image.file_path,
+        media_type=image.mime_type,
+        #filename=image.original_filename
+    )
