@@ -11,6 +11,8 @@ from app.models.image import Image
 
 from app.services import image_service
 
+from fastapi import Query
+
 from fastapi.responses import FileResponse
 from fastapi import HTTPException
 from pathlib import Path
@@ -33,15 +35,32 @@ def upload_image(
     return image_service.upload_image(file, db)
 
 @router.get("/{image_id}")
-def get_image(image_id: int, db: Session = Depends(get_db)):
+def get_image(
+    image_id: int,
+    download: bool = Query(False),
+    db: Session = Depends(get_db)
+):
 
     image = db.query(Image).filter(Image.id == image_id).first()
 
     if image is None:
         raise HTTPException(status_code=404, detail="Image not found")
 
+    if download:
+
+        return FileResponse(
+            image.file_path,
+            media_type=image.mime_type,
+            filename=image.original_filename
+        )
+
     return FileResponse(
         image.file_path,
-        media_type=image.mime_type,
-        #filename=image.original_filename
+        media_type=image.mime_type
     )
+@router.delete("/{image_id}")
+def delete_image(
+    image_id: int,
+    db: Session = Depends(get_db)
+):
+    return image_service.delete_image(image_id, db)

@@ -1,6 +1,8 @@
 import shutil
 import uuid
 from pathlib import Path
+from fastapi import HTTPException
+
 
 from fastapi import UploadFile
 from sqlalchemy.orm import Session
@@ -40,3 +42,29 @@ def upload_image(file: UploadFile, db: Session):
 
     # Return response
     return image
+
+def delete_image(image_id: int, db: Session):
+
+    # Find image in database
+    image = db.query(Image).filter(Image.id == image_id).first()
+
+    if image is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Image not found"
+        )
+
+    # Delete image from filesystem
+    image_path = Path(image.file_path)
+
+    if image_path.exists():
+        image_path.unlink()
+
+    # Delete metadata from PostgreSQL
+    db.delete(image)
+    db.commit()
+
+    # Return response
+    return {
+        "message": "Image deleted successfully"
+    }
