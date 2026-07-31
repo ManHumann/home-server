@@ -1,4 +1,4 @@
-FROM ubuntu/python:3.14-26.04_stable
+FROM python:3.14-slim
 
 WORKDIR /server
 
