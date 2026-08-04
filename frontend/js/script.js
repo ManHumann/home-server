@@ -1,6 +1,6 @@
 console.log("NEW SCRIPT LOADED");
 
-const API_URL = "http://192.168.1.96:8000";
+const API_URL = "/api";
 
 const uploadButton = document.getElementById("uploadButton");
 
