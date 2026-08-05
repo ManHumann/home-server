@@ -1,0 +1,23 @@
+name: Build Docker Image
+
+on:
+    push:
+        branches:
+            - actions
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+
+        steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+
+        - name: Build Backend Image
+          run: |
+              docker build -t home-media-backend ./backend
+
+        - name: Build Frontend Image
+          run: |
+              docker build -t home-media-frontend ./frontend
