@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.routers import images
-
+from sqlalchemy.exc import OperationalError
 
 from app.database import test_connection
 
