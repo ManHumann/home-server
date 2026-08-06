@@ -20,12 +20,13 @@ services:
             - /home/admin/home-media-data/uploads:/server/uploads
 
     postgres:
-        image: postgres:17
+        build:
+            context: ./database
         environment:
             POSTGRES_DB: ${DB_NAME}
             POSTGRES_USER: ${DB_USER}
             POSTGRES_PASSWORD: ${DB_PASSWORD}
         volumes:
             - /home/admin/home-media-data/postgres:/var/lib/postgresql/data
-            - /home/admin/projects/home-media-server/database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
 

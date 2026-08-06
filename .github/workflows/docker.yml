@@ -29,6 +29,16 @@ jobs:
           run: |
               docker push \
               ${{ secrets.DOCKER_USERNAME }}/home-media-backend:latest
+        
+        - name: Build Postgres Image
+          run: |
+              docker build \
+              -t ${{ secrets.DOCKER_USERNAME }}/home-media-postgres:latest \
+              ./backend
+        - name : Push Postgres Image
+          run: |
+              docker push \
+              ${{ secrets.DOCKER_USERNAME }}/home-media-postgres:latest
 
         - name: Build Frontend Image
           run: |
