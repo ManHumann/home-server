@@ -34,7 +34,7 @@ jobs:
           run: |
               docker build \
               -t ${{ secrets.DOCKER_USERNAME }}/home-media-postgres:latest \
-              ./backend
+              ./database
         - name : Push Postgres Image
           run: |
               docker push \
