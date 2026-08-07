@@ -50,3 +50,17 @@ jobs:
           run: |
               docker push \
               ${{ secrets.DOCKER_USERNAME }}/home-media-frontend:latest
+
+    deploy:
+      name: Deploy to Production
+      needs: build
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Deploy to Production
+          uses: appleboy/ssh-action@v1
+          with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USERNAME }}
+            password: ${{ secrets.PASSWORD }}
+            script: whoami
