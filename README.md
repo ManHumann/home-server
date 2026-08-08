@@ -158,7 +158,7 @@ docker compose -f docker-compose-prod.yml ps
 echo "=== Deployment complete ==="
 ```
 make sure to make the script executable by ```chmod +x deploy.sh``` cd /home/prod/home-media-server
-
+```bash
 echo  "Pulling latest image ..... "
 -rw-r--r-- 1 prod prod  132 Aug  6 14:31 .env
 -rw-r--r-- 1 prod prod  898 Aug  7 11:26 docker-compose-prod.yml
@@ -169,4 +169,4 @@ drwxrwxr-x 3 prod prod 4096 Aug  7 11:26 .
 ```bash
 prod@home-server-prod:~/home-media-server$ ls -la
 total 20
-
+```
